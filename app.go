@@ -11,11 +11,13 @@ func main() {
 	engine := html.New("./views", ".html")
 	app := fiber.New(fiber.Config{Views: engine})
 
+	app.Static("/assets", "./public")
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Render("index", fiber.Map{
 			"title": "hello",
 		})
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen("127.0.0.1:3000"))
 }
