@@ -95,7 +95,7 @@ func main() {
 		filtered := filter(pokemon, fil)
 		limited := limit(filtered)
 
-		return c.Render("index", fiber.Map{
+		return c.Render("partial", fiber.Map{
 			"pokemons": limited,
 			"title":    "Hello Pokemons!",
 		})

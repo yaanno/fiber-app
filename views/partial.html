@@ -1,0 +1,19 @@
+<div class="font-bold">Name</div>
+<div class="font-bold">Type</div>
+<div class="font-bold">HP</div>
+<div class="font-bold">Attack</div>
+<div class="font-bold">Defense</div>
+<div class="font-bold">Sp. Attack</div>
+<div class="font-bold">Sp. Defense</div>
+<div class="font-bold">Speed</div>
+
+{{range .pokemons}}
+<div class="font-bold">{{ .Name }}</div>
+<div>{{ .Type }}</div>
+<div>{{ .Hp }}</div>
+<div>{{ .Attack }}</div>
+<div>{{ .Defense }}</div>
+<div>{{ .SpecialAttack }}</div>
+<div>{{ .SpecialDefense }}</div>
+<div>{{ .Speed }}</div>
+{{end}}
