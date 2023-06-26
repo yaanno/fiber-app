@@ -47,6 +47,7 @@ func get_pokemon() Pokemon {
 	return result
 }
 
+// TODO: clean up this. I like the slicing thing tho
 func limit(pokemon Pokemon) Pokemon {
 	all := len(pokemon)
 	if all == 0 {
@@ -85,7 +86,6 @@ func main() {
 		limited := limit(pokemon)
 		return c.Render("index", fiber.Map{
 			"pokemons": limited,
-			"title":    "Hello Pokemons!",
 		})
 	})
 
@@ -97,7 +97,6 @@ func main() {
 
 		return c.Render("partial", fiber.Map{
 			"pokemons": limited,
-			"title":    "Hello Pokemons!",
 		})
 	})
 
