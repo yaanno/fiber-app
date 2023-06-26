@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
@@ -22,9 +23,12 @@ type Pokemon []struct {
 	Speed          int      `json:"speed"`
 }
 
-const API_URL string = "https://jsonplaceholder.typicode.com/users"
+const API_URL string = "http://127.0.0.1:4000/pokemon.json"
+const MAX_COUNT int = 20
 
+// TODO: maybe fiber or fasthhtp impl here...
 func get_pokemon() Pokemon {
+
 	resp, err := http.Get(API_URL)
 	if err != nil {
 		log.Fatal("Cannot fetch API")
@@ -43,16 +47,57 @@ func get_pokemon() Pokemon {
 	return result
 }
 
+func limit(pokemon Pokemon) Pokemon {
+	all := len(pokemon)
+	if all == 0 {
+		return pokemon
+	}
+	var end int
+	if all > MAX_COUNT {
+		end = MAX_COUNT - 1
+	} else if all == 1 {
+		end = all
+	} else {
+		end = all - 1
+	}
+	return pokemon[:end]
+}
+
+func filter(pokemon Pokemon, filter string) Pokemon {
+	var filtered_pokemons Pokemon
+	for _, poke := range pokemon {
+		if strings.Contains(poke.Name, filter) {
+			filtered_pokemons = append(filtered_pokemons, poke)
+		}
+	}
+	return filtered_pokemons
+}
+
 func main() {
 	engine := html.New("./views", ".html")
+
 	app := fiber.New(fiber.Config{Views: engine})
 
 	app.Static("/assets", "./public")
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		pokemons := get_pokemon()
+		pokemon := get_pokemon()
+		limited := limit(pokemon)
 		return c.Render("index", fiber.Map{
-			"title": pokemons,
+			"pokemons": limited,
+			"title":    "Hello Pokemons!",
+		})
+	})
+
+	app.Get("/search", func(c *fiber.Ctx) error {
+		fil := c.Query("name")
+		pokemon := get_pokemon()
+		filtered := filter(pokemon, fil)
+		limited := limit(filtered)
+
+		return c.Render("index", fiber.Map{
+			"pokemons": limited,
+			"title":    "Hello Pokemons!",
 		})
 	})
 

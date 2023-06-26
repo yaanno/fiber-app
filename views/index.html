@@ -1,6 +1,14 @@
 <!DOCTYPE html>
+<head>
+    <title>Fiber and Pokemons</title>
+</head>
 <body>
     <h1>{{.title}}</h1>
+    <div>
+        {{range .pokemons}}
+        <p>{{ .Name}} (lol)</p>
+        {{end}}
+    </div>
     <script src="/assets/test.js"></script>
 </body>
 </html>
