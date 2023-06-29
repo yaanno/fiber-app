@@ -26,7 +26,6 @@ type Pokemon []struct {
 const API_URL string = "http://127.0.0.1:4000/pokemon.json"
 const MAX_COUNT int = 20
 
-// TODO: maybe fiber or fasthhtp impl here...
 func get_pokemon() Pokemon {
 
 	resp, err := http.Get(API_URL)
@@ -47,27 +46,24 @@ func get_pokemon() Pokemon {
 	return result
 }
 
-// TODO: clean up this. I like the slicing thing tho
 func limit(pokemon Pokemon) Pokemon {
 	all := len(pokemon)
+	cap := cap(pokemon)
 	if all == 0 {
 		return pokemon
 	}
-	var end int
 	if all > MAX_COUNT {
-		end = MAX_COUNT - 1
-	} else if all == 1 {
-		end = all
-	} else {
-		end = all - 1
+		return pokemon[:MAX_COUNT]
+	} else if all == 1 && cap > 1 {
+		return pokemon[:all+1]
 	}
-	return pokemon[:end]
+	return pokemon
 }
 
 func filter(pokemon Pokemon, filter string) Pokemon {
 	var filtered_pokemons Pokemon
 	for _, poke := range pokemon {
-		if strings.Contains(poke.Name, filter) {
+		if strings.Contains(strings.ToLower(poke.Name), filter) {
 			filtered_pokemons = append(filtered_pokemons, poke)
 		}
 	}
@@ -79,7 +75,7 @@ func main() {
 
 	app := fiber.New(fiber.Config{Views: engine})
 
-	app.Static("/assets", "./public")
+	app.Static("/public", "./public")
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		pokemon := get_pokemon()
