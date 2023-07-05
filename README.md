@@ -1,13 +1,19 @@
-Fiber and jQuery
+Fiber and Htmx
 ======================
 
 Inspired by [Jack Herrington's experiment](https://github.com/jherr/rscs-vs-php)
 
 Ingredients:
-- Go & Fiber (optional: Air)
-- jQuery (for now)
+- Go & Fiber: https://gofiber.io/
+- Htmx: https://htmx.org/
 
-# Running
+## Fiber
+Lovely Go based web framework.
+
+## Htmx
+Relatively small library that extends the default Web APIs.
+
+## Running
 
 Grab the `data` server from Jack's repo and run the server:
   

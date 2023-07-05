@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Fiber and Pokemons</title>
+    <title>Fiber + Htmx &hearts; Pokemons</title>
     <link rel="stylesheet" href="/public/tailwind.css" />
   </head>
   <body>
     <main class="p-5">
-      <h1 class="text-3xl font-bold">Pokemon</h1>
-      <form id="form" action="/search">
-        <input
+      <h1 class="text-3xl font-bold">Fiber + Htmx &hearts; Pokemons</h1>
+      <form id="form" action="/search" hx-trigger="submit">
+        <input 
+        hx-get="/search"
+        hx-trigger="keyup"
+        hx-throttle="500"
+        hx-target="#table"
         name="name"
         type="text"
         id="search"
@@ -41,6 +45,6 @@
         {{end}}
       </div>
     </main>
-    <script src="/public/app.js"></script>
+    <script src="/public/htmx.min.js"></script>
   </body>
 </html>
